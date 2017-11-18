@@ -106,7 +106,7 @@ public class MainActivity extends AppCompatActivity implements GreenAdapter.List
     }
 
     // (10) Override ListItemClickListener's onListItemClick method
-    // TODO (11) In the beginning of the method, cancel the Toast if it isn't null
+    // (11) In the beginning of the method, cancel the Toast if it isn't null
     // (12) Show a Toast when an item is clicked, displaying that item number that was clicked
     @Override
     public void onListItemClick(int clickedItemIndex) {
