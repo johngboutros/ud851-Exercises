@@ -18,6 +18,7 @@ package com.example.android.implicitintents;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.ShareCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Toast;
@@ -66,10 +67,12 @@ public class MainActivity extends AppCompatActivity {
      * @param v Button that was clicked.
      */
     public void onClickShareTextButton(View v) {
-        // TODO (5) Specify a String you'd like to share
+        // (5) Specify a String you'd like to share
+        String text = "Please, share me!";
 
-        // TODO (6) Replace the Toast with shareText, passing in the String from step 5
-        Toast.makeText(this, "TODO: Share text when this is clicked", Toast.LENGTH_LONG).show();
+        // (6) Replace the Toast with shareText, passing in the String from step 5
+        shareText(text);
+        // Toast.makeText(this, "TO DO: Share text when this is clicked", Toast.LENGTH_LONG).show();
     }
 
     /**
@@ -77,9 +80,8 @@ public class MainActivity extends AppCompatActivity {
      * similar to what I've done above. You can view a list of implicit Intents on the Common
      * Intents page from the developer documentation.
      *
-     * @see <http://developer.android.com/guide/components/intents-common.html/>
-     *
      * @param v Button that was clicked.
+     * @see <http://developer.android.com/guide/components/intents-common.html/>
      */
     public void createYourOwn(View v) {
         Toast.makeText(this,
@@ -119,7 +121,7 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * This method will fire off an implicit Intent to view a location on a map.
-     *
+     * <p>
      * When constructing implicit Intents, you can use either the setData method or specify the
      * URI as the second parameter of the Intent's constructor,
      * as I do in {@link #openWebPage(String)}
@@ -143,12 +145,26 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    // TODO (1) Create a void method called shareText that accepts a String as a parameter
+    // (1) Create a void method called shareText that accepts a String as a parameter
     // Do steps 2 - 4 within the shareText method
+    private void shareText(String text) {
 
-        // TODO (2) Create a String variable called mimeType and set it to "text/plain"
+        // (2) Create a String variable called mimeType and set it to "text/plain"
+        String mimeType = "text/plain";
 
-        // TODO (3) Create a title for the chooser window that will pop up
+        // (3) Create a title for the chooser window that will pop up
+        String title = "How would you like to share this?";
 
-        // TODO (4) Use ShareCompat.IntentBuilder to build the Intent and start the chooser
+        // (4) Use ShareCompat.IntentBuilder to build the Intent and start the chooser
+        Intent intent = ShareCompat.IntentBuilder.from(this)
+                .setChooserTitle(title)
+                .setType(mimeType)
+                .setText(text)
+                .getIntent();
+
+        if (intent.resolveActivity(getPackageManager()) != null) {
+            startActivity(intent);
+        }
+    }
+
 }
