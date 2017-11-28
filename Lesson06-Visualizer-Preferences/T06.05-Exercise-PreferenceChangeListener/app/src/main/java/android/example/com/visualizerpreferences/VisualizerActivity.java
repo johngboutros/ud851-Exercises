@@ -33,8 +33,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-// TODO (1) Implement OnSharedPreferenceChangeListener
-public class VisualizerActivity extends AppCompatActivity {
+// (1) Implement OnSharedPreferenceChangeListener
+public class VisualizerActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
 
     private static final int MY_PERMISSION_RECORD_AUDIO_REQUEST_CODE = 88;
     private VisualizerView mVisualizerView;
@@ -58,11 +58,25 @@ public class VisualizerActivity extends AppCompatActivity {
         mVisualizerView.setShowTreble(true);
         mVisualizerView.setMinSizeScale(1);
         mVisualizerView.setColor(getString(R.string.pref_color_red_value));
-        // TODO (3) Register the listener
+        // (3) Register the listener
+        sharedPreferences.registerOnSharedPreferenceChangeListener(this);
     }
 
-    // TODO (2) Override the onSharedPreferenceChanged method and update the show bass preference
-    // TODO (4) Override onDestroy and unregister the listener
+    // (2) Override the onSharedPreferenceChanged method and update the show bass preference
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        if (getResources().getText(R.string.pref_show_bass_key).equals(key)) {
+            mVisualizerView.setShowBass(sharedPreferences.getBoolean(key, getResources()
+                    .getBoolean(R.bool.pref_show_bass_default)));
+        }
+    }
+
+    // (4) Override onDestroy and unregister the listener
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        PreferenceManager.getDefaultSharedPreferences(this).unregisterOnSharedPreferenceChangeListener(this);
+    }
 
     /**
      * Methods for setting up the menu
@@ -111,7 +125,7 @@ public class VisualizerActivity extends AppCompatActivity {
             mAudioInputReader.restart();
         }
     }
-    
+
     /**
      * App Permissions for Audio
      **/
@@ -121,7 +135,7 @@ public class VisualizerActivity extends AppCompatActivity {
             // And if we're on SDK M or later...
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 // Ask again, nicely, for the permissions.
-                String[] permissionsWeNeed = new String[]{ Manifest.permission.RECORD_AUDIO };
+                String[] permissionsWeNeed = new String[]{Manifest.permission.RECORD_AUDIO};
                 requestPermissions(permissionsWeNeed, MY_PERMISSION_RECORD_AUDIO_REQUEST_CODE);
             }
         } else {
@@ -152,4 +166,5 @@ public class VisualizerActivity extends AppCompatActivity {
 
         }
     }
+
 }
