@@ -28,9 +28,9 @@ public class WaitlistDbHelper extends SQLiteOpenHelper {
         // (6) Inside, create an String query called SQL_CREATE_WAITLIST_TABLE that will create the table
         String SQL_CREATE_WAITLIST_TABLE = "CREATE TABLE " + WaitlistEntry.TABLE_NAME
                 + " (" + WaitlistEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-                + WaitlistEntry.COLUMN_GUEST_NAME + " TEXT, "
-                + WaitlistEntry.COLUMN_PARTY_SIZE + " INTEGER, "
-                + WaitlistEntry.COLUMN_TIMESTAMP + " TEXT" + ");";
+                + WaitlistEntry.COLUMN_GUEST_NAME + " TEXT NOT NULL, "
+                + WaitlistEntry.COLUMN_PARTY_SIZE + " INTEGER NOT NULL, "
+                + WaitlistEntry.COLUMN_TIMESTAMP + " TIMESTAMP DEFAULT CURRENT_TIMESTAMP" + ");";
 
         // (7) Execute the query by calling execSQL on sqLiteDatabase and pass the string query SQL_CREATE_WAITLIST_TABLE
         sqLiteDatabase.execSQL(SQL_CREATE_WAITLIST_TABLE);
@@ -41,7 +41,7 @@ public class WaitlistDbHelper extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
         // (9) Inside, execute a drop table query, and then call onCreate to re-create it
-        String SQL_DROP_WAITLIST_TABLE = "DROP TABLE " + WaitlistEntry.TABLE_NAME + ";";
+        String SQL_DROP_WAITLIST_TABLE = "DROP TABLE IF EXISTS " + WaitlistEntry.TABLE_NAME + ";";
         sqLiteDatabase.execSQL(SQL_DROP_WAITLIST_TABLE);
 
         onCreate(sqLiteDatabase);
