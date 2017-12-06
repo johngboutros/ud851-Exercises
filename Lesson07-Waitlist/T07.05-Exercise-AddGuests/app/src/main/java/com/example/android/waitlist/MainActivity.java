@@ -12,7 +12,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 
-import com.example.android.waitlist.data.TestUtil;
 import com.example.android.waitlist.data.WaitlistContract;
 import com.example.android.waitlist.data.WaitlistDbHelper;
 
@@ -26,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
     EditText mNewGuestNameEditText, mNewPartySizeEditText;
 
     // (13) Create a constant string LOG_TAG that is equal to the class.getSimpleName()
-    private final static String LOG_CAT = MainActivity.class.getSimpleName();
+    private final static String LOG_TAG = MainActivity.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,11 +76,13 @@ public class MainActivity extends AppCompatActivity {
         // JB - guestName
         String guestName = mNewGuestNameEditText.getText().toString();
         if (TextUtils.isEmpty(guestName)) {
+            Log.e(LOG_TAG, "Empty name!");
             return;
         }
 
         // (9) First thing, check if any of the EditTexts are empty, return if so
-        if (TextUtils.isEmpty(mNewGuestNameEditText.getText()) || TextUtils.isEmpty(mNewPartySizeEditText.getText())) {
+        if (TextUtils.isEmpty(mNewPartySizeEditText.getText())) {
+            Log.e(LOG_TAG, "Empty party size!");
             return;
         }
 
@@ -94,6 +95,7 @@ public class MainActivity extends AppCompatActivity {
         try {
             partySize = Integer.parseInt(partySizeString);
         } catch (NumberFormatException e) {
+            Log.e(LOG_TAG, "Failed to parse party size text to number: " + e.getMessage());
             return;
         }
 
@@ -144,7 +146,7 @@ public class MainActivity extends AppCompatActivity {
 
         // (8) call insert to run an insert query on TABLE_NAME with the ContentValues created
         mDb.insert(WaitlistContract.WaitlistEntry.TABLE_NAME, null, cv);
-        Log.d(LOG_CAT, ".insert() invoked!");
+        Log.d(LOG_TAG, ".insert() invoked!");
 
         return;
     }
