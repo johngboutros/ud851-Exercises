@@ -167,7 +167,9 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         // Update the data that the adapter uses to create ViewHolders
-        mAdapter.swapCursor(data);
+        Cursor oldCursor = mAdapter.swapCursor(data);
+        if (oldCursor != null) oldCursor.close(); // TODO JB should I close the old cursor here?
+
     }
 
 
