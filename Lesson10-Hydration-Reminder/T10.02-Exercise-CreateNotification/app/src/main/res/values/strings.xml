@@ -23,4 +23,7 @@
     <string name="charging_reminder_notification_title">Device Charging - Where\'s that water?</string>
     <string name="charging_reminder_notification_body">There\'s never a better time to drink water than when you know your phone is charging. Drink up!</string>
 
+    <!--JB: main_notofication_channel_name-->
+    <string name="main_notofication_channel_name">General</string>
+
 </resources>
