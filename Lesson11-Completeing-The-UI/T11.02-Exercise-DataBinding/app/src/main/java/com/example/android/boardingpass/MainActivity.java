@@ -63,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
         mBinding.textViewSeat.setText(info.seatNumber);
 
         // (7) Use a SimpleDateFormat formatter to set the formatted value in time text views
-        SimpleDateFormat formatter = new SimpleDateFormat("hh:mm a", Locale.getDefault());
+        SimpleDateFormat formatter = new SimpleDateFormat(getString(R.string.timeFormat), Locale.getDefault());
         mBinding.textViewBoardingTime.setText(formatter.format(info.boardingTime));
         mBinding.textViewDepartureTime.setText(formatter.format(info.departureTime));
         mBinding.textViewArrivalTime.setText(formatter.format(info.arrivalTime));
@@ -72,7 +72,8 @@ public class MainActivity extends AppCompatActivity {
         long totalMinutesUntilBoarding = info.getMinutesUntilBoarding();
         long hoursUntilBoarding = TimeUnit.MINUTES.toHours(totalMinutesUntilBoarding);
         long minutesUntilBoarding = totalMinutesUntilBoarding - TimeUnit.HOURS.toMinutes(hoursUntilBoarding);
-        mBinding.textViewBoardingInCountdown.setText(hoursUntilBoarding + ":" + minutesUntilBoarding);
+        mBinding.textViewBoardingInCountdown.setText(
+                getString(R.string.countDownFormat, hoursUntilBoarding, minutesUntilBoarding));
 
     }
 }
